@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-    <title>Page Title</title>
+    <title>To-Do List (misspelled username ver.)</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -16,6 +16,7 @@
             text-align: left;
             background: #1abc9c;
             color: white;
+            border-radius: 20px 20px 0px 0px;
         }
         .header h1 {
             font-size: 40px;
@@ -25,6 +26,7 @@
         .navbar {
             overflow: hidden;
             background-color: #333;
+            border-radius: 0px 0px 20px 20px;
         }
         .navbar a {
             float: left;
@@ -54,7 +56,8 @@
             font-weight: bold;
             background-color: #f1f1f1;
             padding: 20px;
-            flex: 30%
+            flex: 30%;
+            border-radius: 20px 0px 0px 20px;
         }
 
         .main {
@@ -65,9 +68,12 @@
         }
 
         .footer {
+            position: in;
+
             padding: 20px;
             text-align: center;
             background-color: #ddd;
+            border-radius: 20px 20px 0px 0px;
         }
 
         @media screen and (max-width: 700px) {
@@ -100,29 +106,97 @@
     <div class="row">
         <div class="side">
             Items<br>
-            <input type="button" onclick="NewCard()" id="button1" value="New Card"><br>
+            <input type="button" onclick="NewCardInput()" id="newCardButton" value="New Card"><br>
+            <div id="input"></div>
             <div id="cards"></div>
         </div>
         <div class="main">
             Completion (%)<br>
             <div id="numOfItems">0 Items</div>
+            <div id="cardsMain"></div>
         </div>
 
         <script>
-            var numOfCards = 1;
+            input = document.getElementById("input")
+            function lineBreak() { return document.createElement("br") }
+            var numOfCards = 0
+            var newCardInputOpen = false
 
-            function NewCard() {
-                var div = document.createElement("div");
-                div.style.width = "200px";
-                div.style.height = "50px";
-                div.style.background = "white";
-                div.style.color = "black";
-                div.innerHTML = "Card " + numOfCards;
+            function NewCardInput() {
+                if (!newCardInputOpen) {
+                    newCardInputOpen = true;
+
+                    var cardName = document.createElement("input")
+                    cardName.type = Text
+                    cardName.value = "[Title]"
+
+                    var cardContent = document.createElement("input")
+                    cardContent.type = Text
+                    cardContent.value = "[Description]"
+
+                    var confirmButton = document.createElement("BUTTON")
+                    confirmButton.innerText = "Confirm"
+                    confirmButton.onclick = function() {
+                        NewCard(cardName.value, cardContent.value)
+                    };
+
+                    input.appendChild(cardName)
+                    input.appendChild(lineBreak())
+                    input.appendChild(cardContent)
+                    input.appendChild(lineBreak())
+                    input.appendChild(confirmButton)
+                }
+            }
+            function NewCard(cardName, cardContent) {
+                if (cardName.length > 50) {
+                    cardName = cardName.substring(0, 50) + "..."
+                }
+                if (cardContent.length > 300) {
+                    cardContent.substring(0, 300) + "..."
+                }
+
+                var card = document.createElement("div")
+                card.id = "card" + numOfCards.toString()
+                card.style.maxWidth = "300px"
+                card.style.background = "white"
+                card.style.color = "black"
+                card.style.borderRadius = "10px"
+
+                card.append(document.createElement("h1").value = cardName)
+                card.append(lineBreak())
+                card.append(document.createElement("p").value = cardContent)
+                card.append(lineBreak())
+
+                var setCompleteButton = document.createElement("BUTTON")
+                setCompleteButton.innerText = "Move"
+                setCompleteButton.onclick = function() {
+                    MoveCard(card, card.id, card.parentElement)
+                };
+
+                card.append(setCompleteButton)
                 
                 numOfCards++;
-                document.getElementById("cards").appendChild(div); 
-                document.getElementById("numOfItems").innerText = numOfCards + " Items";
+                document.getElementById("cards").appendChild(card)
+                document.getElementById("numOfItems").innerText = numOfCards + " Items"
+                while (input.firstChild) {
+                    input.removeChild(input.lastChild)
+                }
+                newCardInputOpen = false
             }
+            function MoveCard(card, id, parent) {
+                var clone = card.cloneNode(true)
+                document.getElementById(id).remove()
+
+                var newParent
+                if (parent = "cards") {
+                    newParent = "cardsMain"
+                } else if (parent = "cardsMain") {
+                    MoveCard(clone, clone.id, clone.parentElement)
+                }
+
+                document.getElementById(newParent).appendChild(clone)
+            }
+
         </script>
     </div>
 
