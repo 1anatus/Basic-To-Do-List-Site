@@ -111,7 +111,7 @@
             <div id="cards"></div>
         </div>
         <div class="main">
-            Completion (%)<br>
+            Completed Items: 
             <div id="numOfItems">0 Items</div>
             <div id="cardsMain"></div>
         </div>
@@ -161,6 +161,8 @@
                 card.style.background = "white"
                 card.style.color = "black"
                 card.style.borderRadius = "10px"
+                card.style.padding = "10px 10px"
+                card.style.boxShadow = "3px 3px"
 
                 card.append(document.createElement("h1").value = cardName)
                 card.append(lineBreak())
@@ -170,10 +172,18 @@
                 var setCompleteButton = document.createElement("BUTTON")
                 setCompleteButton.innerText = "Move"
                 setCompleteButton.onclick = function() {
-                    MoveCard(card, card.id, card.parentElement)
+                    MoveCard(card, card.parentElement)
                 };
 
-                card.append(setCompleteButton)
+                card.appendChild(setCompleteButton)
+
+                var deleteButton = document.createElement("BUTTON")
+                deleteButton.innerText = "Delete"
+                deleteButton.onclick = function() {
+                    DeleteCard(card)
+                };
+
+                card.appendChild(deleteButton)
                 
                 numOfCards++;
                 document.getElementById("cards").appendChild(card)
@@ -183,18 +193,20 @@
                 }
                 newCardInputOpen = false
             }
-            function MoveCard(card, id, parent) {
-                var clone = card.cloneNode(true)
-                document.getElementById(id).remove()
-
+            function MoveCard(card, parent) {
                 var newParent
-                if (parent = "cards") {
-                    newParent = "cardsMain"
-                } else if (parent = "cardsMain") {
-                    MoveCard(clone, clone.id, clone.parentElement)
+                if (parent.id == "cards") {
+                    newParent = document.getElementById("cardsMain")
+                } else if (parent.id == "cardsMain") {
+                    newParent = document.getElementById("cards")
                 }
-
-                document.getElementById(newParent).appendChild(clone)
+                
+                newParent.appendChild(card)
+            }
+            function DeleteCard(card) {
+                card.parentElement.removeChild(card)
+                numOfCards--;
+                document.getElementById("numOfItems").innerText = numOfCards + " Items"
             }
 
         </script>
