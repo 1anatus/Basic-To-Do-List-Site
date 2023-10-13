@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Arial, Helvetica, sans-serif
         }
 
         /*HEADER STYLING*/
@@ -51,6 +51,7 @@
         .row {
             display: flex;
             flex-wrap: wrap;
+            height: 100vh;
         }
         .side {
             font-weight: bold;
@@ -65,15 +66,6 @@
             flex: 70%;
             background-color: white;
             padding: 20px;
-        }
-
-        .footer {
-            position: in;
-
-            padding: 20px;
-            text-align: center;
-            background-color: #ddd;
-            border-radius: 20px 20px 0px 0px;
         }
 
         @media screen and (max-width: 700px) {
@@ -97,10 +89,7 @@
     </div>
 
     <div class="navbar">
-        <a href="#">Link</a>
-        <a href="#">Link</a>
-        <a href="#">Link</a>
-        <a href="#" class="right">Link</a>
+        <a href="https://github.com/1anatus/1anatus" target="_blank">My GitHub</a>
     </div>
 
     <div class="row">
@@ -118,27 +107,27 @@
 
         <script>
             input = document.getElementById("input")
-            function lineBreak() { return document.createElement("br") }
-            var numOfCards = 0
-            var newCardInputOpen = false
+            const lineBreak = () => document.createElement("br")
+            let numOfCards = 0
+            let newCardInputOpen = false
 
             function NewCardInput() {
                 if (!newCardInputOpen) {
-                    newCardInputOpen = true;
+                    newCardInputOpen = true
 
-                    var cardName = document.createElement("input")
+                    let cardName = document.createElement("input")
                     cardName.type = Text
                     cardName.value = "[Title]"
 
-                    var cardContent = document.createElement("input")
+                    let cardContent = document.createElement("input")
                     cardContent.type = Text
                     cardContent.value = "[Description]"
 
-                    var confirmButton = document.createElement("BUTTON")
+                    let confirmButton = document.createElement("BUTTON")
                     confirmButton.innerText = "Confirm"
                     confirmButton.onclick = function() {
                         NewCard(cardName.value, cardContent.value)
-                    };
+                    }
 
                     input.appendChild(cardName)
                     input.appendChild(lineBreak())
@@ -155,7 +144,7 @@
                     cardContent.substring(0, 300) + "..."
                 }
 
-                var card = document.createElement("div")
+                let card = document.createElement("div")
                 card.id = "card" + numOfCards.toString()
                 card.style.maxWidth = "300px"
                 card.style.background = "white"
@@ -169,23 +158,23 @@
                 card.append(document.createElement("p").value = cardContent)
                 card.append(lineBreak())
 
-                var setCompleteButton = document.createElement("BUTTON")
+                let setCompleteButton = document.createElement("BUTTON")
                 setCompleteButton.innerText = "Move"
                 setCompleteButton.onclick = function() {
                     MoveCard(card, card.parentElement)
-                };
+                }
 
                 card.appendChild(setCompleteButton)
 
-                var deleteButton = document.createElement("BUTTON")
+                let deleteButton = document.createElement("BUTTON")
                 deleteButton.innerText = "Delete"
                 deleteButton.onclick = function() {
                     DeleteCard(card)
-                };
+                }
 
                 card.appendChild(deleteButton)
                 
-                numOfCards++;
+                numOfCards++
                 document.getElementById("cards").appendChild(card)
                 document.getElementById("numOfItems").innerText = numOfCards + " Items"
                 while (input.firstChild) {
@@ -194,26 +183,24 @@
                 newCardInputOpen = false
             }
             function MoveCard(card, parent) {
-                var newParent
+                let newParent
                 if (parent.id == "cards") {
                     newParent = document.getElementById("cardsMain")
+                    card.style.background = "#f1f1f1"
                 } else if (parent.id == "cardsMain") {
                     newParent = document.getElementById("cards")
+                    card.style.background = "white"
                 }
                 
                 newParent.appendChild(card)
             }
             function DeleteCard(card) {
                 card.parentElement.removeChild(card)
-                numOfCards--;
+                numOfCards--
                 document.getElementById("numOfItems").innerText = numOfCards + " Items"
             }
 
         </script>
-    </div>
-
-    <div class="footer">
-        <h2>Footer</h2>
     </div>
 </body>
 
