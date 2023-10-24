@@ -184,14 +184,16 @@
             }
             function MoveCard(card, parent) {
                 let newParent
+                let newColor
                 if (parent.id == "cards") {
                     newParent = document.getElementById("cardsMain")
-                    card.style.background = "#f1f1f1"
+                    newColor = "#f1f1f1"
                 } else if (parent.id == "cardsMain") {
                     newParent = document.getElementById("cards")
-                    card.style.background = "white"
+                    newColor = "White"
                 }
                 
+                card.style.background = newColor
                 newParent.appendChild(card)
             }
             function DeleteCard(card) {
