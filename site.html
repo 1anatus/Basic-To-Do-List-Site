@@ -109,32 +109,35 @@
             input = document.getElementById("input")
             const lineBreak = () => document.createElement("br")
             let numOfCards = 0
+            let completedCards = 0
             let newCardInputOpen = false
 
             function NewCardInput() {
-                if (!newCardInputOpen) {
-                    newCardInputOpen = true
-
-                    let cardName = document.createElement("input")
-                    cardName.type = Text
-                    cardName.value = "[Title]"
-
-                    let cardContent = document.createElement("input")
-                    cardContent.type = Text
-                    cardContent.value = "[Description]"
-
-                    let confirmButton = document.createElement("BUTTON")
-                    confirmButton.innerText = "Confirm"
-                    confirmButton.onclick = function() {
-                        NewCard(cardName.value, cardContent.value)
-                    }
-
-                    input.appendChild(cardName)
-                    input.appendChild(lineBreak())
-                    input.appendChild(cardContent)
-                    input.appendChild(lineBreak())
-                    input.appendChild(confirmButton)
+                if (newCardInputOpen) {
+                    return
                 }
+                
+                newCardInputOpen = true
+
+                let cardName = document.createElement("input")
+                cardName.type = Text
+                cardName.value = "[Title]"
+
+                let cardContent = document.createElement("input")
+                cardContent.type = Text
+                cardContent.value = "[Description]"
+
+                let confirmButton = document.createElement("BUTTON")
+                confirmButton.innerText = "Confirm"
+                confirmButton.onclick = function() {
+                    NewCard(cardName.value, cardContent.value)
+                }
+
+                input.appendChild(cardName)
+                input.appendChild(lineBreak())
+                input.appendChild(cardContent)
+                input.appendChild(lineBreak())
+                input.appendChild(confirmButton)
             }
             function NewCard(cardName, cardContent) {
                 if (cardName.length > 50) {
@@ -176,7 +179,6 @@
                 
                 numOfCards++
                 document.getElementById("cards").appendChild(card)
-                document.getElementById("numOfItems").innerText = numOfCards + " Items"
                 while (input.firstChild) {
                     input.removeChild(input.lastChild)
                 }
@@ -188,18 +190,21 @@
                 if (parent.id == "cards") {
                     newParent = document.getElementById("cardsMain")
                     newColor = "#f1f1f1"
+                    completedCards++
                 } else if (parent.id == "cardsMain") {
                     newParent = document.getElementById("cards")
                     newColor = "White"
+                    completedCards--
                 }
                 
                 card.style.background = newColor
                 newParent.appendChild(card)
+                document.getElementById("numOfItems").innerText = document.getElementById("cardsMain").childElementCount + " Items"
             }
             function DeleteCard(card) {
                 card.parentElement.removeChild(card)
                 numOfCards--
-                document.getElementById("numOfItems").innerText = numOfCards + " Items"
+                document.getElementById("numOfItems").innerText = document.getElementById("cardsMain").childElementCount + " Items"
             }
 
         </script>
